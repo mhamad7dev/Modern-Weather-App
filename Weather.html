@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <!-- إعدادات الصفحة واستيراد ملفات التنسيق والخطوط والأيقونات -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MA App - الطقس الفاخر</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Weather.css">
+</head>
+<body class="text-white py-6 px-4 sm:px-6 lg:px-8">
+
+    <div class="max-w-4xl mx-auto space-y-6">
+        
+        <!-- شريط التطبيق: الشعار والعنوان والبحث عن المدينة -->
+        <header class="flex flex-col sm:flex-row items-center justify-between gap-4 glass-card p-4 rounded-2xl shadow-2xl">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center shadow-lg shadow-amber-500/30">
+                    <i class="fa-solid fa-cloud-sun text-slate-950 text-2xl font-bold"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black tracking-wider bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-500 bg-clip-text text-transparent">M.D App</h1>
+                    <p class="text-xs text-amber-200/60 font-medium">نظام الطقس الفاخر والمتقدم</p>
+                </div>
+            </div>
+
+            <!-- حقل إدخال اسم المدينة وزر بدء البحث -->
+            <div class="w-full sm:w-auto flex-1 max-w-md relative">
+                <input type="text" id="searchInput" placeholder="ابحث عن مدينتك (مثال: دبي، لندن، الرياض)..." 
+                    class="w-full py-2.5 px-4 pr-11 rounded-xl glass-input text-sm text-white placeholder-amber-100/40 outline-none transition-all">
+                <button onclick="searchCity()" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-amber-500/20 hover:bg-amber-500/40 text-amber-400 flex items-center justify-center transition-all cursor-pointer">
+                    <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- مساحة عرض رسائل التحميل والأخطاء -->
+        <div id="statusMessage" class="hidden glass-card p-4 rounded-xl text-center text-amber-300 text-sm"></div>
+
+        <!-- المحتوى الرئيسي لبيانات الطقس والتوقعات -->
+        <main id="weatherContainer" class="space-y-6">
+            
+            <!-- بطاقة الطقس الحالي ودرجات الحرارة والمؤشرات الجوية -->
+            <section class="glass-card p-6 sm:p-8 rounded-3xl relative overflow-hidden shadow-2xl">
+                <div class="absolute -top-24 -left-24 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
+                    <!-- اسم المدينة ودرجة الحرارة ووصف الحالة ودرجات اليوم -->
+                    <div class="text-center md:text-right space-y-2">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs font-semibold">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span id="cityName">جاري تحديد الموقع...</span>
+                        </div>
+                        <h2 id="currentTemp" class="text-6xl sm:text-7xl font-extrabold tracking-tight text-white">--°</h2>
+                        <p id="weatherDesc" class="text-lg font-medium text-amber-100/80">--</p>
+                        <p class="text-xs text-amber-200/50">الصغرى: <span id="minTemp">--°</span> | الكبرى: <span id="maxTemp">--°</span></p>
+                    </div>
+
+                    <!-- أيقونة حالة الطقس ودرجة الحرارة المحسوسة -->
+                    <div class="flex flex-col items-center justify-center">
+                        <div id="weatherIconContainer" class="text-7xl sm:text-8xl text-amber-400 drop-shadow-[0_10px_15px_rgba(245,158,11,0.3)] my-2">
+                            <i class="fa-solid fa-sun fa-spin" style="animation-duration: 20s;"></i>
+                        </div>
+                        <p class="text-xs text-amber-200/60 mt-1">المحسوسة: <span id="feelsLike">--°</span></p>
+                    </div>
+                </div>
+
+                <!-- مؤشرات الطقس الإضافية: الرياح والرطوبة والأشعة والضغط -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-6 border-t border-white/10 relative z-10">
+                    <div class="glass-card p-3.5 rounded-xl flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+                            <i class="fa-solid fa-wind text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-amber-200/60 font-medium">سرعة الرياح</p>
+                            <p id="windSpeed" class="text-sm font-bold text-white">-- كم/س</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-3.5 rounded-xl flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
+                            <i class="fa-solid fa-droplet text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-amber-200/60 font-medium">الرطوبة</p>
+                            <p id="humidity" class="text-sm font-bold text-white">--%</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-3.5 rounded-xl flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-yellow-500/20 text-yellow-400 flex items-center justify-center">
+                            <i class="fa-solid fa-sun text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-amber-200/60 font-medium">مؤشر الأشعة</p>
+                            <p id="uvIndex" class="text-sm font-bold text-white">--</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-3.5 rounded-xl flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                            <i class="fa-solid fa-gauge-high text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-amber-200/60 font-medium">الضغط الجوي</p>
+                            <p id="pressure" class="text-sm font-bold text-white">-- hPa</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- توقعات الطقس خلال الساعات القادمة -->
+            <section class="glass-card p-5 rounded-3xl shadow-xl">
+                <h3 class="text-sm font-bold text-amber-300 mb-4 flex items-center gap-2">
+                    <i class="fa-regular fa-clock"></i> التوقعات خلال الساعات القادمة
+                </h3>
+                <div id="hourlyContainer" class="flex gap-4 overflow-x-auto pb-2 scrollbar-thin">
+                    <p class="text-xs text-amber-200/50 py-4">جاري تحميل الساعات...</p>
+                </div>
+            </section>
+
+            <!-- توقعات الطقس للأيام القادمة -->
+            <section class="glass-card p-5 rounded-3xl shadow-xl">
+                <h3 class="text-sm font-bold text-amber-300 mb-4 flex items-center gap-2">
+                    <i class="fa-regular fa-calendar-days"></i> توقعات الأسبوع القادم
+                </h3>
+                <div id="dailyContainer" class="space-y-3">
+                    <p class="text-xs text-amber-200/50 py-2">جاري تحميل الأيام...</p>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- تذييل الصفحة وحقوق التصميم -->
+        <footer class="text-center text-xs text-amber-200/40 py-2">
+        تم التصميم والتطوير بواسطة محمد عادل <span class="text-amber-400 font-bold">M.D App</span> &copy; 2026-2027
+        </div>
+    </div>
+
+    <!-- ربط ملف JavaScript المسؤول عن البحث وجلب بيانات الطقس -->
+    <script src="Weather.js"></script>
