@@ -4,7 +4,7 @@
     <!-- إعدادات الصفحة واستيراد ملفات التنسيق والخطوط والأيقونات -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MA App - الطقس الفاخر</title>
+    <title>M.D App - برنامج الطقس </title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
 <body class="text-white py-6 px-4 sm:px-6 lg:px-8">
 
     <div class="max-w-4xl mx-auto space-y-6">
-        
+
         <!-- شريط التطبيق: الشعار والعنوان والبحث عن المدينة -->
         <header class="flex flex-col sm:flex-row items-center justify-between gap-4 glass-card p-4 rounded-2xl shadow-2xl">
             <div class="flex items-center gap-3">
@@ -27,6 +27,7 @@
             </div>
 
             <!-- حقل إدخال اسم المدينة وزر بدء البحث -->
+            
             <div class="w-full sm:w-auto flex-1 max-w-md relative">
                 <input type="text" id="searchInput" placeholder="ابحث عن مدينتك (مثال: دبي، لندن، الرياض)..." 
                     class="w-full py-2.5 px-4 pr-11 rounded-xl glass-input text-sm text-white placeholder-amber-100/40 outline-none transition-all">
@@ -37,18 +38,22 @@
         </header>
 
         <!-- مساحة عرض رسائل التحميل والأخطاء -->
+        
         <div id="statusMessage" class="hidden glass-card p-4 rounded-xl text-center text-amber-300 text-sm"></div>
 
         <!-- المحتوى الرئيسي لبيانات الطقس والتوقعات -->
+        
         <main id="weatherContainer" class="space-y-6">
-            
+
             <!-- بطاقة الطقس الحالي ودرجات الحرارة والمؤشرات الجوية -->
+            
             <section class="glass-card p-6 sm:p-8 rounded-3xl relative overflow-hidden shadow-2xl">
                 <div class="absolute -top-24 -left-24 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
+                <!-- اسم المدينة ودرجة الحرارة ووصف الحالة ودرجات اليوم -->
+
                 <div class="flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
-                    <!-- اسم المدينة ودرجة الحرارة ووصف الحالة ودرجات اليوم -->
                     <div class="text-center md:text-right space-y-2">
                         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs font-semibold">
                             <i class="fa-solid fa-location-dot"></i>
@@ -60,6 +65,7 @@
                     </div>
 
                     <!-- أيقونة حالة الطقس ودرجة الحرارة المحسوسة -->
+                    
                     <div class="flex flex-col items-center justify-center">
                         <div id="weatherIconContainer" class="text-7xl sm:text-8xl text-amber-400 drop-shadow-[0_10px_15px_rgba(245,158,11,0.3)] my-2">
                             <i class="fa-solid fa-sun fa-spin" style="animation-duration: 20s;"></i>
@@ -69,6 +75,7 @@
                 </div>
 
                 <!-- مؤشرات الطقس الإضافية: الرياح والرطوبة والأشعة والضغط -->
+                
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-6 border-t border-white/10 relative z-10">
                     <div class="glass-card p-3.5 rounded-xl flex items-center gap-3">
                         <div class="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
@@ -113,6 +120,7 @@
             </section>
 
             <!-- توقعات الطقس خلال الساعات القادمة -->
+
             <section class="glass-card p-5 rounded-3xl shadow-xl">
                 <h3 class="text-sm font-bold text-amber-300 mb-4 flex items-center gap-2">
                     <i class="fa-regular fa-clock"></i> التوقعات خلال الساعات القادمة
@@ -123,6 +131,7 @@
             </section>
 
             <!-- توقعات الطقس للأيام القادمة -->
+
             <section class="glass-card p-5 rounded-3xl shadow-xl">
                 <h3 class="text-sm font-bold text-amber-300 mb-4 flex items-center gap-2">
                     <i class="fa-regular fa-calendar-days"></i> توقعات الأسبوع القادم
@@ -134,11 +143,12 @@
 
         </main>
 
-        <!-- تذييل الصفحة وحقوق التصميم -->
+        <!-- footer الصفحة وحقوق التصميم -->
+
         <footer class="text-center text-xs text-amber-200/40 py-2">
         تم التصميم والتطوير بواسطة محمد عادل <span class="text-amber-400 font-bold">M.D App</span> &copy; 2026-2027
         </div>
     </div>
 
-    <!-- ربط ملف JavaScript المسؤول عن البحث وجلب بيانات الطقس -->
+
     <script src="Weather.js"></script>
