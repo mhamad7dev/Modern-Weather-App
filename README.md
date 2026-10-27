@@ -29,5 +29,4 @@
 👤 المطور
 ​تم تطوير هذا المشروع بشغف بواسطة Mhamad Adil (Bo3Dil).
 ​GitHub: @Mhamad-Dev
-​Email: mohamadinocraft12@gmail.com
 ​⭐ إذا أعجبك المشروع، لا تنسَ إعطاءه Star على GitHub!
